@@ -16,15 +16,16 @@ closed = False
 
 #Experiment Data
 #testData keyed by 'size':'user inputs'
-testData = {'270':[],
-            '280':[],
-            '290':[],
-            '300':[],
-            '310':[],
-            '320':[],
-            '330':[]}
-#Completed sizes are placed in tempData, removed from testData
-tempData = {}
+trialSize = 3
+testData = {150:[],
+            140:[],
+            145:[],
+            150:[],
+            155:[],
+            160:[],
+            165:[]}
+
+completeAnswers = {}
 
 #To make sure pygame screen is loaded in right place
 os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (x,y)
@@ -47,10 +48,31 @@ def drawText(text,x,y,size,col):
 
 #Check if allowed to use that circle (circle size)
 def checkSize(size):
-    return len(testData[size])<20
+    return len(testData[size])<trialSize
+        
 
 #Get our random circle size from available testData options
-
+def getCircle():
+    found = False
+    goodCircle = None
+    while not found:
+        ####=======Make a pre check before calling this method,
+        #### Should nto run this method if no test cirlces lefts
+        if size(list(testData.keys()))>0:
+            possibleCircle = random.choice(list(testData.keys()))
+        else:
+            goodCircle = 1;
+            found=True
+            ######## === END
+        if checkSize(possibleCircle):
+            found = True
+            goodCircle = possibleCircle
+        else:
+            completeAnswers.update({possibleCircle:testData[possibleCircle]})
+            del testData[possibleCircle]
+    return goodCircle
+        
+        
 
 #*******Main*******
 while not closed:
@@ -66,8 +88,9 @@ while not closed:
     drawText("Reference Circle",420,250,50,BLACK)
     pygame.draw.circle(screen, BLACK, (560,500),150)
     #Test Circle Info
+    testCircle = getCircle()
     drawText("Test Circle",1250,250,50,BLACK)
-    pygame.draw.circle(screen, BLACK, (1340,500),150)
+    pygame.draw.circle(screen, BLACK, (1340,500),testCircle)
     
     #Screen update
     pygame.display.flip()
@@ -80,6 +103,10 @@ while not closed:
             closed = True
         if event.type == pygame.KEYDOWN:     
             print(event.unicode)
+            print(testCircle)
+            testData[testCircle].append(event.unicode)
+            print(testData)
+            
         
 pygame.display.quit()
 pygame.quit()
