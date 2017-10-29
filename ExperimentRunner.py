@@ -88,6 +88,9 @@ def waitForInput():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 closed = True
+                answered=True
+                pygame.display.quit()
+                pygame.quit()
             if event.type == pygame.KEYDOWN and (event.unicode=='0' or event.unicode == '1'):     
                 testData[testCircle].append(event.unicode)
                 answered=True
@@ -95,6 +98,8 @@ def waitForInput():
                 
 #Draws circles and other drawings onto screen
 def drawScreen(testCircle):
+    #Screen Clear
+    screen.fill(WHITE)
     #Title
     drawText("Press 1 if Reference is larger, 0 if Test Circle is larger",
              500,150,50,BLACK)
@@ -108,9 +113,6 @@ def drawScreen(testCircle):
     
 #*******Main*******
 while not closed:
-
-    #Screen Clear
-    screen.fill(WHITE)
 
     #Add Drawings to screen
     if 0<len(list(testData.keys())):
