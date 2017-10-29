@@ -1,6 +1,8 @@
 import pygame
 import os
 import random
+#Our class to write data to csv
+from DataWriter import DataWriter
 
 #Screen load location
 x = 0
@@ -18,6 +20,10 @@ closed = False
 #testData keyed by 'size':'user inputs'
 age = input("Enter participant's age: \n")
 gender = input("Enter participant's gender: \n")
+stats = {
+    'age':[age],
+    'gender':[gender]
+    }
 trialSize = 3
 testData = {150:[],
             140:[],
@@ -129,6 +135,8 @@ while not closed:
         waitForInput()
             
 ##Write to file here
+dataFile = DataWriter(completeAnswers,stats)
+dataFile.writeToCsv()
 
 pygame.display.quit()
 pygame.quit()
