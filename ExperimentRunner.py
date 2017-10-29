@@ -24,7 +24,7 @@ stats = {
     'age':[age],
     'gender':[gender]
     }
-trialSize = 3
+trialSize = 20
 testData = {150:[],
             140:[],
             145:[],
@@ -89,7 +89,6 @@ def waitForInput():
             if event.type == pygame.QUIT:
                 closed = True
             if event.type == pygame.KEYDOWN and (event.unicode=='0' or event.unicode == '1'):     
-                print(testCircle)
                 testData[testCircle].append(event.unicode)
                 answered=True
 
@@ -122,7 +121,6 @@ while not closed:
         drawScreen(testCircle)
     else:
         print("Done Trials")
-        print(completeAnswers)
         closed= True
     
     #Screen update

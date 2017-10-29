@@ -17,5 +17,5 @@ class DataWriter:
         stats = pd.DataFrame.from_dict(self.stats)
         stats.to_csv('data.csv',mode='a',header=True, index=False)
         df.to_csv('data.csv',mode='a',header=True, index=False)
-        print(df)
+        print("Saved data to data.csv")
         
