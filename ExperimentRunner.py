@@ -16,6 +16,8 @@ closed = False
 
 #Experiment Data
 #testData keyed by 'size':'user inputs'
+age = input("Enter participant's age: \n")
+gender = input("Enter participant's gender: \n")
 trialSize = 3
 testData = {150:[],
             140:[],
@@ -56,13 +58,11 @@ def getCircle():
     found = False
     goodCircle = None
     while not found:
-        ####=======Make a pre check before calling this method,
-        #### Should nto run this method if no test cirlces lefts
-        if size(list(testData.keys()))>0:
+
+        if 0<len(list(testData.keys())):
             possibleCircle = random.choice(list(testData.keys()))
         else:
-            goodCircle = 1;
-            found=True
+            return None;
             ######## === END
         if checkSize(possibleCircle):
             found = True
@@ -71,16 +71,25 @@ def getCircle():
             completeAnswers.update({possibleCircle:testData[possibleCircle]})
             del testData[possibleCircle]
     return goodCircle
-        
-        
 
-#*******Main*******
-while not closed:
 
-    #Screen Clear
-    screen.fill(WHITE)
+#Get stuck in loop here to avoid refreshing
+#Only finishes if user inputs 0 or 1
+def waitForInput():
+    answered = False
+    while not answered:
+        #User Inputs
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                closed = True
+            if event.type == pygame.KEYDOWN and (event.unicode=='0' or event.unicode == '1'):     
+                print(testCircle)
+                testData[testCircle].append(event.unicode)
+                answered=True
 
-    #Drawings
+                
+#Draws circles and other drawings onto screen
+def drawScreen(testCircle):
     #Title
     drawText("Press 1 if Reference is larger, 0 if Test Circle is larger",
              500,150,50,BLACK)
@@ -88,25 +97,38 @@ while not closed:
     drawText("Reference Circle",420,250,50,BLACK)
     pygame.draw.circle(screen, BLACK, (560,500),150)
     #Test Circle Info
-    testCircle = getCircle()
     drawText("Test Circle",1250,250,50,BLACK)
     pygame.draw.circle(screen, BLACK, (1340,500),testCircle)
+
+    
+#*******Main*******
+while not closed:
+
+    #Screen Clear
+    screen.fill(WHITE)
+
+    #Add Drawings to screen
+    if 0<len(list(testData.keys())):
+        testCircle = getCircle()
+    else:
+        testCircle = None
+    if type(testCircle)==int:
+        drawScreen(testCircle)
+    else:
+        print("Done Trials")
+        print(completeAnswers)
+        closed= True
     
     #Screen update
     pygame.display.flip()
     #Limiting to 60fps
     clock.tick(60)
 
-    #User Inputs
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            closed = True
-        if event.type == pygame.KEYDOWN:     
-            print(event.unicode)
-            print(testCircle)
-            testData[testCircle].append(event.unicode)
-            print(testData)
+    #Wait for user to input before refreshing, then add input to data
+    if not closed:
+        waitForInput()
             
-        
+##Write to file here
+
 pygame.display.quit()
 pygame.quit()
