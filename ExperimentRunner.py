@@ -25,7 +25,7 @@ stats = {
     'gender':[gender]
     }
 trialSize = 20
-testData = {150:[],
+testData = {135:[],
             140:[],
             145:[],
             150:[],
