@@ -43,7 +43,7 @@ pygame.init()
 
 
 #Creating the window
-screen_size = (1280, 800)
+screen_size = (1920, 1080)
 screen = pygame.display.set_mode(screen_size)
 pygame.display.set_caption("PSYC 367 Experiment")
 screen.fill(WHITE)
@@ -102,13 +102,13 @@ def drawScreen(testCircle):
     screen.fill(WHITE)
     #Title
     drawText("Press 1 if Reference is larger, 0 if Test Circle is larger",
-             200,150,50,BLACK)
+             500,150,50,BLACK)
     #Refence Circle Info
-    drawText("Reference Circle",125,250,50,BLACK)
-    pygame.draw.circle(screen, BLACK, (275,500),150)
+    drawText("Reference Circle",420,250,50,BLACK)
+    pygame.draw.circle(screen, BLACK, (560,500),150)
     #Test Circle Info
-    drawText("Test Circle",900,250,50,BLACK)
-    pygame.draw.circle(screen, BLACK, (1000,500),testCircle)
+    drawText("Test Circle",1250,250,50,BLACK)
+    pygame.draw.circle(screen, BLACK, (1340,500),testCircle)
 
     
 #*******Main*******
@@ -127,8 +127,8 @@ while not closed:
     
     #Screen update
     pygame.display.flip()
-    #Limiting to 45fps
-    clock.tick(45)
+    #Limiting to 60fps
+    clock.tick(60)
 
     #Wait for user to input before refreshing, then add input to data
     if not closed:
